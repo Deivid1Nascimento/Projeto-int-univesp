@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+
+    <link rel="stylesheet" href="{% static 'css/Menu.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Estilo.css' %}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>home</title>
+</head>
+<body>
+
+<!--Menu principal-->
+
+  <ul class="menu">
+      <li title="menu"><a href="#" class="menu-button home">menu</a></li>
+  </ul>
+    <ul class="menu-bar">
+        <li><a href="/">Home</a></li>
+        <li><a href="/form">Cadastrar</a></li>
+        <li><a href="/resultados">Pesquisar</a></li>
+        <li><a href="#">Contato</a></li>
+    </ul>
+<div>
+    <form method="get" id="search">
+        <input class="form-control" name="search" type="text" placeholder="Buscar...">
+    </form>
+</div>
+<div class="page pageIE">
+     <div class="text2 text-center">Iniciar novo cadastro<a href="/form" class="btn">Cadastro</a> </div>
+
+    <!--tabela com o resultado do DB-->
+
+<div class="text4  text-center">
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Nome da Faculdade</th>
+        <th scope="col">Curso</th>
+        <th scope="col">Preço</th>
+        <th scope="col">Cidade</th>
+        <th scope="col">Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for dbs in db%}
+    <tr>
+    <td>{{dbs.nome_faculdade}} </td>
+    <td>{{dbs.curso}}</td>
+    <td>R${{dbs.preco}}</td>
+        <td>{{dbs.cidade}} - {{dbs.uf}}</td>
+        <td>
+            <a href="/visualizar/{{dbs.id}}/" class="btn">Ver</a>
+            <a href="/editar/{{dbs.id}}/" class="btn">Editar</a>
+            <a href="/apagar/{{dbs.id}}/" class="btn btnDel">Apagar</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+ </div>
+
+     <!--Paginacao-->
+
+<div class="pagination">
+    <ul class="pagination">
+<li class="page-item"></li>
+    {% if db.has_previous %}
+        <li class="page-item">
+    <a href="?page={{db.previous_page_number}}" class="btn">Anterior</a>
+    {% endif %}
+</li>
+    <li class="page-item active text3"> {{ db.number }}</li>
+<li class="page-item">
+    {% if db.has_next %}
+    <a href="?page={{db.next_page_number}}" class="btn">Próxima</a>
+    {% endif %}
+                </li>
+    </ul>
+</div>
+ </div>
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="{% static 'javascript/javascript.js' %}"></script>
+</body>
+</html>
